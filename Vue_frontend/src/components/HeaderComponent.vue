@@ -3,12 +3,12 @@
 </script>
 
 <template>
-    <element>
+    <nav>
         <a href="/login">login</a> |
         <a href="/about">About</a> |
         <a href="/Todos">Todos</a> |
         <a href="/non-existent-path">Broken Link</a>
-    </element>
+    </nav>
 </template>
 
 <style scoped>

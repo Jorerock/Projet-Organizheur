@@ -1,25 +1,26 @@
-<!-- <script setup lang="ts">
-import { User } from '../models/user';
-import LoginComponent from './LoginComponent.vue';
+<script setup lang="ts">
+// import { ref, onMounted } from 'vue';
 
+// import { User } from '../models/user';
+import LoginComponent from '../components/LoginComponent.vue';
 
-const users = defineProps<{ user: User }>();
+//  const users = defineProps<{ user: User }>();
 
-
-
-// const monTableau = [1, 2, 3];
-
-const onConnectInput = async (user: User) => {
+// const onConnectInput = async ({email: email  ,password : password  }) => {
   
-  await fetch(`http://localhost:3000/User/${user}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+ const onConnectInput = async (event :{email: string  ,password : string  }) => {
 
-    body: JSON.stringify(user),
-  });
-  console.log('monTableau est mis à jour et la modification est envoyée au serveur');
+  await fetch('http://localhost:3000/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: event.email,
+            password: event.password,
+          }),
+        });
+  console.log('la tentative de connexion est envoyée au serveur');
 };
 
 
@@ -27,7 +28,9 @@ const onConnectInput = async (user: User) => {
 
 <template>
   <p>Hello World !</p>
-  <LoginComponent :user="none" @Connect="onConnectInput($event)">
+  <!-- <LoginComponent @Connect="onConnectInput($event)"/> -->
+  <LoginComponent @onInput="onConnectInput($event)"/>
+
 </template>
   
-<style scoped></style> -->
+<style scoped></style>
