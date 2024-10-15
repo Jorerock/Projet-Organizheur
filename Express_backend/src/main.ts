@@ -6,7 +6,7 @@ import { query } from './db';
 import todoRouter from "./routes/todos";
 import usersRouter from "./routes/users";
 
-import authRouter from "./routes/users";
+import authRouter from "./routes/auth";
 
 
 const server = express();

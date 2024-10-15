@@ -8,7 +8,7 @@ try {
 // récupérer tous les utilisateurs du SGBD
 const users = await query('SELECT * FROM utilisateur');
 res.json(users);
-res.send(users);
+
 } catch (error) {
 console.error('Erreur :', error);
 res.status(500).json({ error: 'Erreur serveur' });

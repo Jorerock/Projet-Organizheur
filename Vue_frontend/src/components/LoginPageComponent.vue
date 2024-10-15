@@ -14,6 +14,7 @@ import LoginComponent from '../components/LoginComponent.vue';
     // eslint-disable-next-line no-debugger
   debugger;
   console.log('start')
+  console.log('la tentative de connexion est envoyée au serveur');
 
   const response = await fetch('http://localhost:3000/auth', {
           method: 'POST',
@@ -25,16 +26,15 @@ import LoginComponent from '../components/LoginComponent.vue';
             password: event.password,
           }),
         });
-        if (!response.ok) {
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('donne recup =', data);
+        } else {
+
           console.error(response.status);
           console.log('Erreur creation pour cause de '+ response.status);
-
-        } else {
-          utilisateur.value = await response.json();
-          console.log('Todo Ajoute');
-
         }
-  console.log('la tentative de connexion est envoyée au serveur');
 };
 
 
