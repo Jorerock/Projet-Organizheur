@@ -7,13 +7,14 @@ import LoginComponent from '../components/LoginComponent.vue';
 //  const users = defineProps<{ user: User }>();
 
 // const onConnectInput = async ({email: email  ,password : password  }) => {
-  console.log('start')
 
   const utilisateur = ref<User[]>([]);
   
  const onConnectInput = async (event :{email: string  ,password : string  }) => {
     // eslint-disable-next-line no-debugger
   debugger;
+  console.log('start')
+
   const response = await fetch('http://localhost:3000/auth', {
           method: 'POST',
           headers: {
@@ -38,12 +39,11 @@ import LoginComponent from '../components/LoginComponent.vue';
 
 
 
-const test = async (event :{email: string  ,password : string  }) => {
+const test = async () => {
     // eslint-disable-next-line no-debugger
     debugger;
   const todosRequest = await fetch('http://localhost:3000/auth');
   console.log(await todosRequest.json())
-  console.log(event.email)
 };
 
 
@@ -53,13 +53,14 @@ const test = async (event :{email: string  ,password : string  }) => {
   <p>Hello World !</p>
   <!-- <LoginComponent @Connect="onConnectInput($event)"/> -->
   <!-- <LoginComponent @authentification="onConnectInput($event)"/> -->
-  <LoginComponent @authentification="test($event)"/>
+  <LoginComponent @authentification="onConnectInput($event)"/>
   <input
           type="text"
           id="text"
           required
           placeholder="test"
-        />  <button class="button button1" @click="test({email: 'email'  ,password : 'mdp'})">test</button>
+        />
+        <button class="button button1" @click="test()">test</button>
 
 </template>
   

@@ -1,7 +1,21 @@
 import express,{ Request, Response, Router } from "express";
 
 const todoRouter = express.Router();
-const monTableau:any[] = [];
+// const monTableau:any[] = [];
+// 333333333333333333333333333333333333333333333
+interface Todo {
+  id: number;
+  label: string;
+  done: boolean;
+  dueDate?: Date;
+}
+
+const monTableau: Todo[] = [
+  { id: 1, label: "apprendre Vue Js", done: false, dueDate: new Date("2024-12-31") },
+  { id: 2, label: "apprendre à faire des boucles", done: false },
+  { id: 3, label: "apprendre à griller des saucisses", done: true, dueDate: new Date("2024-12-31") },
+];
+// 33333333333333333333333333333333333
 todoRouter.get("/:id", (req: Request, res: Response) => {
     const id = parseInt(req.params.id, 10);
     const todo = monTableau.find((t) => t.id === id);
