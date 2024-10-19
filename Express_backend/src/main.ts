@@ -4,7 +4,7 @@ import cors from "cors";
 
 import { query } from './db';
 import todoRouter from "./routes/todos";
-import usersRouter from "./routes/users";
+// import usersRouter from "./routes/users";
 
 import authRouter from "./routes/auth";
 
@@ -25,7 +25,7 @@ interface Todo {
 
 server.use('/todos',todoRouter);
 server.use('/auth',authRouter);
-server.use('/users',usersRouter);
+// server.use('/users',usersRouter);
   
   
 

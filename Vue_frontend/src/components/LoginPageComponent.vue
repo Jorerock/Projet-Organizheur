@@ -1,14 +1,14 @@
 <script setup lang="ts">
- import { ref } from 'vue';
-
- import { User } from '../models/user';
+//  import { ref } from 'vue';
+import * as cookie from './Cookie';
+//  import { User } from '../models/user';
 import LoginComponent from '../components/LoginComponent.vue';
 
 //  const users = defineProps<{ user: User }>();
 
 // const onConnectInput = async ({email: email  ,password : password  }) => {
 
-  const utilisateur = ref<User[]>([]);
+  // const utilisateur = ref<User[]>([]);
   
  const onConnectInput = async (event :{email: string  ,password : string  }) => {
     // eslint-disable-next-line no-debugger
@@ -24,12 +24,15 @@ import LoginComponent from '../components/LoginComponent.vue';
           body: JSON.stringify({
             email: event.email,
             password: event.password,
+            Credential:'include'
+            // include cookies
           }),
         });
         const data = await response.json();
 
         if (response.ok) {
             console.log('donne recup =', data);
+            cookie.setCookie('Employe_id','1',1)
         } else {
 
           console.error(response.status);

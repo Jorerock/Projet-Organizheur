@@ -10,7 +10,7 @@ authRouter.get('/', async (req: Request, res: Response) => {
 try {
 const { email, password } = req.body;
 
-const authentification = await query('SELECT * FROM `utilisateur` WHERE email = ?',['utilisateur@mail.net']);
+const authentification = await query('SELECT * FROM `employe` WHERE email = ?',['utilisateur@mail.net']);
 res.json(authentification);
 
 } catch (error) {
@@ -25,7 +25,7 @@ authRouter.post('/', async (req: Request, res: Response) => {
     console.log("Données reçues :", email);
     try {
 
-    const authentification = await query('SELECT * FROM `utilisateur` WHERE email = ?',[email]);
+    const authentification = await query('SELECT * FROM `employe` WHERE email = ?',[email]);
     if(!authentification){
         res.status(401).json({Unauthorized: 'Une authentification est nécessaire pour accéder à la ressource.'});
     }else{

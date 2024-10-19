@@ -1,6 +1,6 @@
 export interface Todo {
-  id: number;
-  label: string;
-  done: boolean;
-  dueDate?: Date;
+  Todo_id: number;
+  Todo_name: string;
+  Todo_end: boolean;
+  Todo_echeance_date?: Date;
 }
