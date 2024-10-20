@@ -21,16 +21,28 @@ console.error('Erreur :', error);
 
 authRouter.post('/', async (req: Request, res: Response) => {
     console.log('.post/auth')
-    const { email } = req.body;
+    const { email, } = req.body;
     console.log("Données reçues :", email);
     try {
 
-    const authentification = await query('SELECT * FROM `employe` WHERE email = ?',[email]);
-    if(!authentification){
-        res.status(401).json({Unauthorized: 'Une authentification est nécessaire pour accéder à la ressource.'});
+    const authentification = await query('SELECT Employe_ID FROM employe WHERE Email = ?',[email]);
+    // const authentification = await query('SELECT Employe_ID FROM employe')
+
+    //  const authentification = await query('SELECT 1 + 1 AS test');
+
+
+    if(authentification.length > 0){
+        console.log(authentification[0])
+        // // res.status(200).json(authentification);
+        // res.json(authentification);
+        res.status(200).json({
+            message: "Connexion réussie",
+            Employe_ID : authentification[0], // retourner les infos de l'utilisateur
+          });
+
     }else{
-        res.status(200).json('Welcome');
-}
+        res.status(401).json({Unauthorized: 'Une authentification est nécessaire pour accéder à la ressource.'});       
+    }
 
     } catch (error) {
     console.error('Erreur :', error);

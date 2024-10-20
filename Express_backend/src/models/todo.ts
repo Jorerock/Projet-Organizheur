@@ -1,6 +1,6 @@
 export interface Todo {
-  Todo_id: number;
+  List_ID: number;
   Todo_name: string;
   Todo_end: boolean;
-  Todo_echeance_date?: Date;
+  Todo_Echeance_date?: Date;
 }

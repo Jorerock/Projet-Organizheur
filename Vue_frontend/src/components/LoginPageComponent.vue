@@ -3,6 +3,11 @@
 import * as cookie from './Cookie';
 //  import { User } from '../models/user';
 import LoginComponent from '../components/LoginComponent.vue';
+import { useRouter } from 'vue-router'
+
+
+const router = useRouter()
+
 
 //  const users = defineProps<{ user: User }>();
 
@@ -32,9 +37,11 @@ import LoginComponent from '../components/LoginComponent.vue';
 
         if (response.ok) {
             console.log('donne recup =', data);
-            cookie.setCookie('Employe_id','1',1)
+            console.log('employe_id',data.Employe_ID.Employe_ID)
+            cookie.setCookie('Employe_id',data.Employe_ID.Employe_ID,1)
+            router.push({ path: "/todos" })
+            
         } else {
-
           console.error(response.status);
           console.log('Erreur creation pour cause de '+ response.status);
         }
@@ -55,7 +62,7 @@ const test = async () => {
 <template>
   <p>Hello World !</p>
   <!-- <LoginComponent @Connect="onConnectInput($event)"/> -->
-  <!-- <LoginComponent @authentification="onConnectInput($event)"/> -->
+  <!-- <LoginComponent @authentification="onConnectInput($event)"/> -->   
   <LoginComponent @authentification="onConnectInput($event)"/>
   <input
           type="text"
