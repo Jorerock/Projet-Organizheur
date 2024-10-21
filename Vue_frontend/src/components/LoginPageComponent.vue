@@ -5,20 +5,11 @@ import * as cookie from './Cookie';
 import LoginComponent from '../components/LoginComponent.vue';
 import { useRouter } from 'vue-router'
 
-
 const router = useRouter()
-
-
-//  const users = defineProps<{ user: User }>();
-
-// const onConnectInput = async ({email: email  ,password : password  }) => {
-
-  // const utilisateur = ref<User[]>([]);
   
  const onConnectInput = async (event :{email: string  ,password : string  }) => {
-    // eslint-disable-next-line no-debugger
-  debugger;
-  console.log('start')
+  //   // eslint-disable-next-line no-debugger
+  // debugger;
   console.log('la tentative de connexion est envoyée au serveur');
 
   const response = await fetch('http://localhost:3000/auth', {
