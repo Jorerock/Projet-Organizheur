@@ -7,6 +7,8 @@
         <a href="/login">login</a> |
         <a href="/about">About</a> |
         <a href="/Todos">Todos</a> |
+        <a href="/user">Gestion utilisateur</a> |
+        
         <a href="/non-existent-path">Broken Link</a>
     </nav>
 </template>

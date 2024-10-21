@@ -2,14 +2,18 @@
 //  import { ref } from 'vue';
 import * as cookie from './Cookie';
 //  import { User } from '../models/user';
-import LoginComponent from '../components/LoginComponent.vue';
+import UserComponent from '../components/UserComponent.vue';
 import { useRouter } from 'vue-router'
 
+
 const router = useRouter()
-  
+
+
+
  const onConnectInput = async (event :{email: string  ,password : string  }) => {
-  //   // eslint-disable-next-line no-debugger
-  // debugger;
+    // eslint-disable-next-line no-debugger
+  debugger;
+  console.log('start')
   console.log('la tentative de connexion est envoyée au serveur');
 
   const response = await fetch('http://localhost:3000/auth', {
@@ -38,13 +42,27 @@ const router = useRouter()
         }
 };
 
+
+
+const test = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+  const todosRequest = await fetch('http://localhost:3000/auth');
+  console.log(await todosRequest.json())
+};
+
+
 </script>
 
-<template>
-  <p>Hello World !</p>
-  <!-- <LoginComponent @Connect="onConnectInput($event)"/> -->
-  <!-- <LoginComponent @authentification="onConnectInput($event)"/> -->   
-  <LoginComponent @authentification="onConnectInput($event)"/>
+<template> 
+  <UserComponent @authentification="onConnectInput($event)"/>
+  <input
+          type="text"
+          id="text"
+          required
+          placeholder="test"
+        />
+        <button class="button button1" @click="test()">test</button>
 
 </template>
   
