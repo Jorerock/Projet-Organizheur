@@ -1,5 +1,5 @@
 import AboutPageComponent from '@/components/AboutPageComponent.vue';
-import LoginComponent from '@/components/LoginComponent.vue';
+import LoginPageComponent from '../components/LoginPageComponent.vue';
 import TodosPageComponent from '@/components/TodosPageComponent.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -19,7 +19,9 @@ const router = createRouter({
     {
       name: 'login',
       path:'/login',
-      component: LoginComponent
+      component: LoginPageComponent
+      // component: LoginPageComponent
+
     }
   ]
 });

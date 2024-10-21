@@ -6,34 +6,34 @@ const props = defineProps<{ todo: Todo }>();
 
 const editMode = ref(false);
 
-const newValue = ref(props.todo.label);
+const newValue = ref(props.todo.Todo_name);
 
 const emit = defineEmits(['onInput'])
 
 const onInput = (value: boolean) => {
     console.log('TodoComponent a détecté un changement ', value);
-    emit('onInput', { ...props.todo, done: value })
+    emit('onInput', { ...props.todo, Todo_end: value })
 }
 
 const onConfirmText = () => {
     editMode.value = false;
-    emit('onInput', { ...props.todo, label: newValue.value });
+    emit('onInput', { ...props.todo, Todo_name: newValue.value });
 }
 const onCancelText = () => {
     editMode.value = false;
-    newValue.value = props.todo.label;
+    newValue.value = props.todo.Todo_name;
 }
 </script>
 
 <template>
-      <element :class="{ checked: props.todo.done }">
+      <element :class="{ checked: props.todo.Todo_end }">
     <span v-if="!editMode">
         <span @click="editMode = !editMode">
-            {{ props.todo.label }} |
-            {{ props.todo.dueDate}}
+            {{ props.todo.Todo_name }} |
+            {{ props.todo.Todo_Echeance_date}}
 
         </span>
-        <input type="checkbox" :checked="props.todo.done" @click="(event: any) => onInput(event.target?.checked)" />
+        <input type="checkbox" :checked="props.todo.Todo_end" @click="(event: any) => onInput(event.target?.checked)" />
         <br />
     </span>
     <span v-else>

@@ -4,8 +4,16 @@
  */
 
 export interface Todo {
-  id: number;
-  label: string;
-  done: boolean;
-  dueDate?: Date;
-  }
+  List_ID: number;
+  Todo_name: string;
+  Todo_end: boolean;
+  Todo_Echeance_date?: Date;
+}
+
+
+// export interface Todo {
+//   id: number;
+//   label: string;
+//   done: boolean;
+//   dueDate?: Date;
+//   }

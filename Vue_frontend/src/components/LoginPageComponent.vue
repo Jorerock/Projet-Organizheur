@@ -1,25 +1,59 @@
-<!-- <script setup lang="ts">
-import { User } from '../models/user';
-import LoginComponent from './LoginComponent.vue';
+<script setup lang="ts">
+//  import { ref } from 'vue';
+import * as cookie from './Cookie';
+//  import { User } from '../models/user';
+import LoginComponent from '../components/LoginComponent.vue';
+import { useRouter } from 'vue-router'
 
 
-const users = defineProps<{ user: User }>();
+const router = useRouter()
 
 
+//  const users = defineProps<{ user: User }>();
 
-// const monTableau = [1, 2, 3];
+// const onConnectInput = async ({email: email  ,password : password  }) => {
 
-const onConnectInput = async (user: User) => {
+  // const utilisateur = ref<User[]>([]);
   
-  await fetch(`http://localhost:3000/User/${user}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+ const onConnectInput = async (event :{email: string  ,password : string  }) => {
+    // eslint-disable-next-line no-debugger
+  debugger;
+  console.log('start')
+  console.log('la tentative de connexion est envoyée au serveur');
 
-    body: JSON.stringify(user),
-  });
-  console.log('monTableau est mis à jour et la modification est envoyée au serveur');
+  const response = await fetch('http://localhost:3000/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: event.email,
+            password: event.password,
+            Credential:'include'
+            // include cookies
+          }),
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log('donne recup =', data);
+            console.log('employe_id',data.Employe_ID.Employe_ID)
+            cookie.setCookie('Employe_id',data.Employe_ID.Employe_ID,1)
+            router.push({ path: "/todos" })
+            
+        } else {
+          console.error(response.status);
+          console.log('Erreur creation pour cause de '+ response.status);
+        }
+};
+
+
+
+const test = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+  const todosRequest = await fetch('http://localhost:3000/auth');
+  console.log(await todosRequest.json())
 };
 
 
@@ -27,7 +61,17 @@ const onConnectInput = async (user: User) => {
 
 <template>
   <p>Hello World !</p>
-  <LoginComponent :user="none" @Connect="onConnectInput($event)">
+  <!-- <LoginComponent @Connect="onConnectInput($event)"/> -->
+  <!-- <LoginComponent @authentification="onConnectInput($event)"/> -->   
+  <LoginComponent @authentification="onConnectInput($event)"/>
+  <input
+          type="text"
+          id="text"
+          required
+          placeholder="test"
+        />
+        <button class="button button1" @click="test()">test</button>
+
 </template>
   
-<style scoped></style> -->
+<style scoped></style>

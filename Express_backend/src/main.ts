@@ -1,14 +1,19 @@
 import express, { Router, Express, Request, Response } from "express";
 import cors from "cors";
 
+
 import { query } from './db';
 import todoRouter from "./routes/todos";
-import usersRouter from "./routes/users";
+// import usersRouter from "./routes/users";
 
-import authRouter from "./routes/users";
+import authRouter from "./routes/auth";
+
 
 const server = express();
 server.use(express.json());
+
+server.use(cors())
+
 
 interface Todo {
   id: number;
@@ -20,7 +25,7 @@ interface Todo {
 
 server.use('/todos',todoRouter);
 server.use('/auth',authRouter);
-server.use('/users',usersRouter);
+// server.use('/users',usersRouter);
   
   
 

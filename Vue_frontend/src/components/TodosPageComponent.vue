@@ -2,57 +2,76 @@
 import { ref, onMounted } from 'vue';
 import TodoComponent from './TodoComponent.vue';
 import { Todo } from '../models/todo';
+import * as cookie from './Cookie';
+
 
 const monTableau = ref<Todo[]>([]);
 
+const Employe_id = cookie.getCookie("Employe_id")
+
 onMounted(async () => {
-  const todosRequest = await fetch('http://localhost:3000/todos');
+  const todosRequest = await fetch('http://localhost:3000/todos/'+Employe_id+'');
   const todos:Todo[] = await todosRequest.json();
   monTableau.value = [...todos];
 });
 
+// onMounted(async () => {
+//   const todosRequest = await fetch('http://localhost:3000/todos/'+Employe_id+'');
+
+//   // const todos:Todo[] = await todosRequest.json();
+
+//   const todo = await todosRequest.json();
+
+// if (todo.ok) {
+//     // console.log('donne recup =', todo);
+//     console.log('List_ID',todo.List_ID.List_ID)
+//      monTableau.value.List_ID
+// }
+//   monTableau.value = [...todo];
+// });
+
 // const monTableau = [1, 2, 3];
 
-const onTodoInput = async (newTodoValue: Todo, index: number) => {
-  monTableau.value[index] = newTodoValue;
-  await fetch(`http://localhost:3000/todos/${newTodoValue.id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newTodoValue),
-  });
-  console.log('monTableau est mis à jour et la modification est envoyée au serveur');
-};
+// const onTodoInput = async (newTodoValue: Todo, index: number) => {
+//   monTableau.value[index] = newTodoValue;
+//   await fetch(`http://localhost:3000/todos/${newTodoValue.id}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(newTodoValue),
+//   });
+//   console.log('monTableau est mis à jour et la modification est envoyée au serveur');
+// };
 
-const deleteTodo = async (id: number, index: number) => {
-  await fetch(`http://localhost:3000/todos/${id}`, {
-    method: 'DELETE',
-  });
-  monTableau.value.splice(index, 1);
-  console.log('Todo supprimé');
-};
+// const deleteTodo = async (id: number, index: number) => {
+//   await fetch(`http://localhost:3000/todos/${id}`, {
+//     method: 'DELETE',
+//   });
+//   monTableau.value.splice(index, 1);
+//   console.log('Todo supprimé');
+// };
 
 
-const PostTodo = async () => {
-  // POST request using fetch with async/await
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ label: 'Nouvelle tâche', done: false })
-  };
-  const response = await fetch(`http://localhost:3000/todos`, requestOptions);
-  // const data = await response.json();
-  if (!response.ok) {
-    console.error(response.status);
-    console.log('Erreur creation pour cause de '+ response.status);
+// const PostTodo = async () => {
+//   // POST request using fetch with async/await
+//   const requestOptions = {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ label: 'Nouvelle tâche', done: false })
+//   };
+//   const response = await fetch(`http://localhost:3000/todos`, requestOptions);
+//   // const data = await response.json();
+//   if (!response.ok) {
+//     console.error(response.status);
+//     console.log('Erreur creation pour cause de '+ response.status);
 
-  } else {
-    monTableau.value.push( await response.json());
-    console.log('Todo Ajoute');
+//   } else {
+//     monTableau.value.push( await response.json());
+//     console.log('Todo Ajoute');
 
-  }
-};
+//   }
+// };
 
 </script>
 
