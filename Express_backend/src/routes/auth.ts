@@ -1,17 +1,40 @@
-import express,{ Request, Response, Router } from "express";
+import express,{ Request, response, Response, Router } from "express";
 import { query } from "../db";
-
+import {generateTokenForUser} from "../Function/jwt.utils"
+// import adminConnect from '../Function/jwt.utils';
+import { Employe } from "../models/employe"
 const authRouter = Router();
 authRouter.use(express.json());
+var bodyParser  = require('body-parser');
 
+authRouter.use(bodyParser.urlencoded({ extended: true }));
+authRouter.use(bodyParser.json());
 
+//INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Admin`, `Utilisateur_Password`, `Utilisateur_Email`) VALUES (NULL, 'Doe', 'John', '0', 'Password', 'utilisateur@mail.net');
 
-authRouter.get('/', async (req: Request, res: Response) => {
+authRouter.post('/', async (req: Request, res: Response) => {
 try {
-const { email, password } = req.body;
+const  Email  :string = req.body.Email ;
+const  Password:string  = req.body.Password;
 
-const authentification = await query('SELECT * FROM `employe` WHERE email = ?',['utilisateur@mail.net']);
-res.json(authentification);
+
+console.log("mail "+Email+"pass: "+Password)
+
+const authentification = await query('SELECT Employe_ID,Admin FROM Employe WHERE Email  = ?',[Email]);
+const user  = JSON.parse(JSON.stringify(authentification))
+const User : Employe = user[0]
+// console.log("user:"+user)
+const token = generateTokenForUser(User)
+    res.cookie('token', token, {
+      httpOnly: false, 
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: 'strict', 
+    });
+res.status(201).json({
+    'user': user.Employe_ID,
+    'admin':User.Admin,
+    'token': token
+});
 
 } catch (error) {
 console.error('Erreur :', error);
@@ -19,36 +42,13 @@ console.error('Erreur :', error);
 }
 });
 
-authRouter.post('/', async (req: Request, res: Response) => {
-    console.log('.post/auth')
-    const { email, } = req.body;
-    console.log("Données reçues :", email);
-    try {
+authRouter.post("/logout", (req, res) => {
+	res.clearCookie("jwtToken");
+  res.json({ response: 'succesfull logout' });
+});
 
-    const authentification = await query('SELECT Employe_ID FROM employe WHERE Email = ?',[email]);
-    // const authentification = await query('SELECT Employe_ID FROM employe')
-
-    //  const authentification = await query('SELECT 1 + 1 AS test');
-
-
-    if(authentification.length > 0){
-        console.log(authentification[0])
-        // // res.status(200).json(authentification);
-        // res.json(authentification);
-        res.status(200).json({
-            message: "Connexion réussie",
-            Employe_ID : authentification[0], // retourner les infos de l'utilisateur
-          });
-
-    }else{
-        res.status(401).json({Unauthorized: 'Une authentification est nécessaire pour accéder à la ressource.'});       
-    }
-
-    } catch (error) {
-    console.error('Erreur :', error);
-     res.status(500).json({ error: 'Erreur serveur' + res });
-    }
-    });
 
 export default authRouter;
+
+
 

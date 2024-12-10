@@ -4,7 +4,7 @@ import cors from "cors";
 
 import { query } from './db';
 import todoRouter from "./routes/todos";
-// import usersRouter from "./routes/users";
+import usersRouter from "./routes/users";
 
 import authRouter from "./routes/auth";
 
@@ -12,8 +12,14 @@ import authRouter from "./routes/auth";
 const server = express();
 server.use(express.json());
 
-server.use(cors())
+var whitelist = ['http://localhost:3000', /** other domains if any */ ]
+var corsOptions = {
+}
 
+server.use(cors({
+  origin: 'http://localhost:5173',  
+  credentials: true
+}));
 
 interface Todo {
   id: number;
@@ -25,7 +31,7 @@ interface Todo {
 
 server.use('/todos',todoRouter);
 server.use('/auth',authRouter);
-// server.use('/users',usersRouter);
+server.use('/users',usersRouter);
   
   
 

@@ -5,10 +5,10 @@ import HeaderComponent from './components/HeaderComponent.vue';
 
 <template>
    <HeaderComponent/>
-  <br/>
- <RouterView/>
- <br/>
- footer
+   <br/>
+   <RouterView/>
+   <br/>
+ 
 </template>
   
 <style scoped></style>

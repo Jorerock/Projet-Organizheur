@@ -1,7 +1,9 @@
 import AboutPageComponent from '@/components/AboutPageComponent.vue';
 import LoginPageComponent from '../components/LoginPageComponent.vue';
 import TodosPageComponent from '@/components/TodosPageComponent.vue';
-import UserPageComponent from '@/components/UserPageComponent.vue';
+import GestionUtilisateurPage from '@/components/GestionUtilisateurPage.vue';
+
+
 
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -26,9 +28,9 @@ const router = createRouter({
     },
 
     {
-      name: 'user',
-      path:'/user',
-      component: UserPageComponent
+      name: '/gestions',
+      path:'/gestions',
+      component: GestionUtilisateurPage
       // component: LoginPageComponent
     }
 
