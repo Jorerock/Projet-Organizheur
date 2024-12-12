@@ -42,8 +42,20 @@ const showUserView = computed(() => {
               </a>
               <a  v-if="true" href="/gestions"
                 class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
-                Gestion Utilisateur
+                Utilisateur
               </a>
+              <a  v-if="true" href="/Categorie"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
+                 Categorie
+              </a>
+              <a  v-if="true" href="/List"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
+                 List
+              </a>
+
+
+
+
             </div>
           </div>
         </div>
@@ -69,7 +81,7 @@ const showUserView = computed(() => {
     </div>
 
     <!-- Mobile menu, show/hide based on menu state -->
-    <div class="md:hidden" :class="{'block': isOpen, 'hidden': !isOpen}">
+    <!-- <div class="md:hidden" :class="{'block': isOpen, 'hidden': !isOpen}">
       <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
         <a href="/login"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
@@ -83,9 +95,9 @@ const showUserView = computed(() => {
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
           Gestion Utilisateur
         </a>
-        <a href="/GestionsClient"
+        <a href="/Categorie"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
-          Gestion Client
+          Gestion /Categorie
         </a>
         <a href="/GestionsLivraison"
           class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">
@@ -100,6 +112,6 @@ const showUserView = computed(() => {
           Mes Livraisons
         </a>
       </div>
-    </div>
+    </div> -->
   </nav>
 </template>

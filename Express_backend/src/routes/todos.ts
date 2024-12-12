@@ -7,7 +7,6 @@ const todosRouter = Router();
 todosRouter.use(express.json());
 todosRouter.use(cookieParser());
 
-// const monTableau:any[] = [];
 export interface Todo {
   List_ID: number;
   Todo_name: string;
@@ -23,11 +22,6 @@ todosRouter.get('/:Employe_id', async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid ID" });
   }
   return GetSpecific('Todo', Employe_id)(req, res);
-
-//   const Todos = await query('SELECT Todo_name, Todo_Echeance_date,Todo_End,List_ID FROM todo WHERE Employe_ID = ?',[Employe_id]);
-//   console.log("les todo :",Todos)
-//   res.json(Todos);
-
 });
 
 

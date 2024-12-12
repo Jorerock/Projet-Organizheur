@@ -1,88 +1,200 @@
-<script lang="ts">
-import {ref, onMounted } from 'vue';
-import ReusableTable from './ReusableTable.vue';
-import { Todo } from '../models/todo';
+<template>
+  <div class="todos-container">
+    <ItemCard 
+      v-for="todo in todosTab" 
+      :key="todo.Todo_ID"
+      :title="todo.Todo_Name"
+      :description="todo.description"
+      :clickable="true"
+      @card-click="handleTodoClick(todo)"
+    >
+      <!-- Additional info slot for todo details -->
+      <template #additionalInfo>
+        <div class="todo-additional-info">
+          <span 
+            class="todo-status" 
+            :class="{
+              'status-completed': todo.Todo_end === 2,
+              'status-pending': todo.Todo_end === 1,
+              'status-in-progress': todo.Todo_end === 0
+            }"
+          >
+            {{ todo.Todo_end }}
+          </span>
+          <span v-if="todo.Todo_Echeance_date" class="todo-due-date">
+            Due: {{ formatDate(todo.Todo_Echeance_date) }}
+          </span>
+        </div>
+      </template>
+
+      <!-- Actions slot for todo interactions -->
+      <template #actions>
+        <div class="todo-actions">
+          <button 
+            @click.stop="markTodoComplete(todo)" 
+            v-if="todo.Todo_end !== 0"
+          >
+            Mark Complete
+          </button>
+          <button 
+            @click.stop="editTodo(todo)"
+          >
+            Edit
+          </button>
+        </div>
+      </template>
+    </ItemCard>
+
+    <!-- No todos message -->
+    <div v-if="todosTab.length === 0" class="no-todos">
+      No todos found
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import ItemCard from '../components/ItemCard.vue'
+
+// Define Todo interface
+interface Todo {
+  Todo_ID: number
+  Todo_Name: string
+  description?: string
+  Todo_end: number
+  Todo_Echeance_date?: string
+}
 import * as cookie from './Cookie';
 
-const Employe_id = cookie.getCookie("Employe_ID")
 
+// // Props or passed in from parent component
+// const props = defineProps<{
+//   Employe_id: number
+// }>()
 
-export default {
-    name: 'ParentComponent',
-    components: {
-    ReusableTable
-  },
-  setup() {
-    const headers = ref<string[]>([
-      'Todo_Name',
-      'Todo_Echeance_date',
-      'Todo_end',
-      'Todo_Created_date'	
-      ]);
-    const apiUrl = ref<string>('http://localhost:3000/users');
-    const todosTab = ref<Todo[]>([])
+const todosTab = ref<Todo[]>([])
+  const Employe_id = cookie.getCookie("Employe_ID")
 
-    // Fetch initial data
-    onMounted(async () => {
-        try {
-            const TodosRequest = await fetch('http://localhost:3000/todos/'+Employe_id+'', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                "Access-Control-Allow-Origin": "http://localhost:3000",
-                "Access-Control-Allow-Methods": "GET, OPTIONS",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
-                'Content-Type': 'application/json',
-                }
-            });
-            
-            if (!TodosRequest.ok) {
-                throw new Error(`HTTP error! status: ${TodosRequest.status}`);
-            }
-            
-            const Todos = await TodosRequest.json();
-            todosTab.value = [...Todos];
-        } catch (error) {
-            console.error('Error fetching users:', error);
-        }
-    });
-
-    
-    const handleItemCreated = (newItem: Todo): void => {
-        todosTab.value.push(newItem);
-    };
-
-    const handleItemUpdated = (updatedItem: Todo): void => {
-      const index = todosTab.value.findIndex(
-        item => item.Todo_ID === updatedItem.Todo_ID
-      );
-      if (index !== -1) {
-        todosTab.value.splice(index, 1, updatedItem);
+// Fetch todos
+onMounted(async () => {
+  try {
+    const TodosRequest = await fetch(`http://localhost:3000/todos/${Employe_id}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+        'Content-Type': 'application/json',
       }
-    };
-    return {
-      headers,
-      todosTab,
-      apiUrl,
-      handleItemCreated,
-      handleItemUpdated
-    };
-
+    });
+   
+    if (!TodosRequest.ok) {
+      throw new Error(`HTTP error! status: ${TodosRequest.status}`);
     }
+   
+    const Todos = await TodosRequest.json();
+    todosTab.value = [...Todos];
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+  }
+});
+
+// Methods for todo interactions
+const handleTodoClick = (todo: Todo) => {
+  console.log('Todo clicked:', todo);
+  // Add any specific click handling logic
 }
 
+const markTodoComplete = async (todo: Todo) => {
+  try {
+    const response = await fetch(`http://localhost:3000/todos/${todo.Todo_ID}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: 1 })
+    });
+
+    if (response.ok) {
+      // Update local state
+      const index = todosTab.value.findIndex(t => t.Todo_ID === todo.Todo_ID);
+      if (index !== -1) {
+        todosTab.value[index].Todo_end = 1;
+      }
+    }
+  } catch (error) {
+    console.error('Error marking todo complete:', error);
+  }
+}
+
+const editTodo = (todo: Todo) => {
+  console.log('Edit todo:', todo);
+  // Implement edit todo logic (e.g., open a modal, navigate to edit page)
+}
+
+// Utility method to format date
+const formatDate = (dateString?: string) => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
 </script>
 
+<style scoped>
+.todos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  padding: 16px;
+}
 
+.todo-additional-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
 
-<template>
+.todo-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
 
-    <ReusableTable
-        :headers="headers"
-        :items="todosTab"
-        rowKey="Todo_ID"
-        :apiUrl="apiUrl"
-        @itemCreated="handleItemCreated"
-        @itemUpdated="handleItemUpdated"
-      />
-    </template>
+.status-completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-in-progress {
+  background-color: #2196f3;
+  color: white;
+}
+
+.todo-due-date {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.no-todos {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+</style>

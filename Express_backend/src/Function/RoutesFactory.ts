@@ -3,17 +3,15 @@ import { query } from "../db";
 
 export const GetAll  = (tablename: string) =>
     async (req: Request, res: Response) => {
-        const requete = await query('SELECT * from ?',[tablename]);
+        const requete = await query(`SELECT * from ${tablename} `);
         if(!requete)
         {
-            res.status(500).json({ error: "ouch pas de donné" });
+            return res.status(500).json({ error: "ouch pas de donné" });
         }
         else{
-            res.status(201).json(requete);
+            return res.status(201).json(requete);
         }
     }
-
-
 
     export const GetSpecific = (table: string, Id: number) =>
         async (req: Request, res: Response) => {
@@ -36,14 +34,31 @@ export const GetAll  = (tablename: string) =>
             }
         }
 
-    
 export const DeleteSpecific  = (table: string, Id : number ) =>
     async (req: Request, res: Response) => {
-        const requete = await query('Delete FROM ? WHERE Employe_ID  = ?',[table,Id]);
+        const requete = await query(`Delete FROM  ${table} WHERE Employe_ID  = ?`,[Id]);
         if (!requete || requete.length === 0) {
-            res.status(500).json({ error: "No data found" });
+            return res.status(500).json({ error: "No data found" });
         }
         else {
-            res.status(201).json(requete);
+            return  res.status(201).json(requete);
         }
     }
+
+    
+// 
+export const PutSpecific  = (table: string, header : string[][]) =>
+    async (req: Request, res: Response) => {
+        let insertQuery = `INSERT INTO ${table}`
+        header.forEach(element => {
+        insertQuery = insertQuery + ` ? VALUES ?`,[element[0],element[1]]
+        });
+        console.log(insertQuery)
+      try{
+        const Todos = await query(insertQuery);
+        res.status(201).json({'Crée': 'Elément crée'});
+      } catch (error) {
+        console.error('Erreur :', error);
+        res.status(500).json({ error: error });
+      }};
+    

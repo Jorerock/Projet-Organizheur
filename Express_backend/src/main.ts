@@ -5,8 +5,10 @@ import cors from "cors";
 import { query } from './db';
 import todoRouter from "./routes/todos";
 import usersRouter from "./routes/users";
-
 import authRouter from "./routes/auth";
+import CategorieRouteur from "./routes/Categorie"
+import listRouteur from "./routes/List"
+
 
 
 const server = express();
@@ -32,8 +34,10 @@ interface Todo {
 server.use('/todos',todoRouter);
 server.use('/auth',authRouter);
 server.use('/users',usersRouter);
-  
-  
+server.use('/Categorie',CategorieRouteur);
+server.use('/list',listRouteur);
+
+
 
 const sql = `SELECT 1 + 1 AS test`;
 query(sql).then(

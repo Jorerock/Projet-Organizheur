@@ -3,6 +3,8 @@ import LoginPageComponent from '../components/LoginPageComponent.vue';
 import TodosPageComponent from '@/components/TodosPageComponent.vue';
 import GestionUtilisateurPage from '@/components/GestionUtilisateurPage.vue';
 import TodosPageComponent2 from '@/components/TodosPageComponent2.vue';
+import CategoriePage from '@/components/CategoriePage.vue';
+import ListPage from '@/components/ListPage.vue';
 
 
 
@@ -15,6 +17,16 @@ const router = createRouter({
       name:'todos',
       path: '/todos',
       component: TodosPageComponent
+    },
+    {
+      name:'List',
+      path: '/List',
+      component: ListPage
+    },
+    {
+      name:'Categorie',
+      path: '/Categorie',
+      component: CategoriePage
     },
     {
       name:'todos2',
