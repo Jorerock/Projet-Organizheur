@@ -6,7 +6,7 @@ import * as cookie from './Cookie';
 
 // const monTableau = ref<Todo[]>([]);
 const monTableau = ref<any[]>([]);
-const Employe_id = cookie.getCookie("Employe_id")
+const Employe_id = cookie.getCookie("Employe_ID")
 
 onMounted(async () => {
   const todosRequest = await fetch('http://localhost:3000/todos/'+Employe_id+'');
@@ -14,21 +14,9 @@ onMounted(async () => {
   monTableau.value = [...todos]
 });
 
-// onMounted(async () => {
-//   const todosRequest = await fetch('http://localhost:3000/todos/'+Employe_id+'');
-// const todos:Todo[] = await todosRequest.json();
-//   const todo = await todosRequest.json();
-// if (todo.ok) {
-//     // console.log('donne recup =', todo);
-//     console.log('List_ID',todo.List_ID.List_ID)
-//      monTableau.value.List_ID
-// }
-//   monTableau.value = [...todo];
-// });
-// // const monTableau = [1, 2, 3];
 const onTodoInput = async (newTodoValue: Todo, index: number) => {
   monTableau.value[index] = newTodoValue;
-  await fetch(`http://localhost:3000/todos/${newTodoValue.List_ID}`, {
+  await fetch(`http://localhost:3000/todos/${newTodoValue.Todo_ID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -38,8 +26,8 @@ const onTodoInput = async (newTodoValue: Todo, index: number) => {
   console.log('monTableau est mis à jour et la modification est envoyée au serveur');
 };
 
-const deleteTodo = async (List_ID: number, index: number) => {
-  await fetch(`http://localhost:3000/todos/${List_ID}`, {
+const deleteTodo = async (Todo_ID: number, index: number) => {
+  await fetch(`http://localhost:3000/todos/${Todo_ID}`, {
     method: 'DELETE',
   });
   monTableau.value.splice(index, 1);
@@ -47,14 +35,12 @@ const deleteTodo = async (List_ID: number, index: number) => {
 };
 
 const PostTodo = async () => {
-  // POST request using fetch with async/await
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ label: 'Nouvelle tâche', done: false })
   };
   const response = await fetch(`http://localhost:3000/todos`, requestOptions);
-  // const data = await response.json();
   if (!response.ok) {
     console.error(response.status);
     console.log('Erreur creation pour cause de '+ response.status);
@@ -65,12 +51,6 @@ const PostTodo = async () => {
 };
 
 
-
-// monTableau.value= [
-//     { Todo_name: "apprendre Vue Js" },
-//     { List_ID: 2, Todo_name: "apprendre à faire des boucles", Todo_end: false },
-//     { List_ID: 3, Todo_name: "apprendre à griller des saucisses", Todo_end: true, Todo_Echeance_date: new Date("2024-12-31") },
-//   ];
 </script>
 
 <template>
@@ -79,10 +59,7 @@ const PostTodo = async () => {
   pair</span>
   <span v-else>Mon tableau est impair</span>
   <br/>
-  
-  <!-- <TodoComponent v-for="(element,index) in monTableau" :todo="element" v-bind:key="index"/> -->
-
-  <div class="todos" v-for="(element, index) in monTableau" :key="element.List_ID">
+  <div class="todos" v-for="(element, index) in monTableau" :key="element.Todo_ID">
   <TodoComponent :todo="element" @onInput="onTodoInput($event, index)" />
   <button class="button button1" @click="deleteTodo(element.id, index)">Supprimer</button>
   </div>

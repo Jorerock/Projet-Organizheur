@@ -1,7 +1,5 @@
-
 <template>
   <div class="space-y-4">
-
     <!-- Table Actions -->
     <div class="flex justify-between items-center">
       <h2 class="text-lg font-semibold text-gray-900"></h2>
@@ -45,12 +43,18 @@
               <span v-else>{{ item[header] }}</span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              <div v-if="!item.isEditing">
+              <div v-if="!item.isEditing" class="space-x-2">
                 <button
                   @click="startEdit(item)"
                   class="text-indigo-600 hover:text-indigo-900 font-medium"
                 >
                   Modifier
+                </button>
+                <button
+                  @click="deleteItem(item)"
+                  class="text-red-600 hover:text-red-900 font-medium"
+                >
+                  Supprimer
                 </button>
               </div>
               <div v-else class="space-x-2">
@@ -71,8 +75,6 @@
           </tr>
         </tbody>
       </table>
-
-
     </div>
 
     <!-- Modal -->
@@ -148,6 +150,7 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent, PropType, ref, reactive } from 'vue'
 import { TableItem } from '../models/tables'
 
@@ -171,7 +174,7 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['itemCreated', 'itemUpdated'],
+  emits: ['itemCreated', 'itemUpdated', 'itemDeleted'],
   setup(props, { emit }) {
     const showModal = ref(false)
     const newItem = reactive({} as TableItem)
@@ -237,6 +240,23 @@ export default defineComponent({
       }
     }
 
+    const deleteItem = async (item: TableItem): Promise<void> => {
+      try {
+        const response = await fetch(`${props.apiUrl}/${item[props.rowKey]}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+        
+        if (response.ok) {
+          emit('itemDeleted', item)
+        } else {
+          console.error('Error deleting item')
+        }
+      } catch (error) {
+        console.error('Error deleting item:', error)
+      }
+    }
+
     return {
       showModal,
       newItem,
@@ -246,7 +266,8 @@ export default defineComponent({
       cancelEdit,
       addItem,
       createItem,
-      updateItem
+      updateItem,
+      deleteItem
     }
   }
 })

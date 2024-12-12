@@ -31,7 +31,7 @@ const token = generateTokenForUser(User)
       sameSite: 'strict', 
     });
 res.status(201).json({
-    'user': user.Employe_ID,
+    'Employe_ID': user.Employe_ID,
     'admin':User.Admin,
     'token': token
 });

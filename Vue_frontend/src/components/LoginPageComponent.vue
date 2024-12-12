@@ -83,6 +83,7 @@ import LoginComponent from '../components/LoginComponent.vue'
 interface AuthResponse {
   token: string
   admin: string
+  Employe_ID: string
   message?: string
 }
 
@@ -125,7 +126,10 @@ const handleLogin = async (credentials: { email: string, password: string }) => 
 
     if (response.ok) {
       cookie.setCookie('token', data.token, 1)
-      cookie.setCookie('isAdmin', data.admin, 1)
+      cookie.setCookie('Admin', data.admin, 1)
+      cookie.setCookie('Employe_ID', data.Employe_ID, 1)
+
+      
       showStatus('Successfully signed in!', 'success')
       router.push({ path: '/Welcome' })
       window.location.reload(); // Reloads the current page
@@ -159,6 +163,7 @@ const handleLogout = async () => {
 
     if (response.ok) {
       // Clear cookies
+      
       cookie.setCookie('token', 'null', -1)
       document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
       cookie.setCookie('isAdmin', 'null', -1)

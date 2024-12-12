@@ -13,12 +13,12 @@ const isTokenValid = () => {
 };
 
 const showAdminView = computed(() => {
-  const isAdmin = cookie.getCookie('isAdmin') === '1';
+  const isAdmin = cookie.getCookie('Admin') === '1';
   return isAdmin;
 });
 
-const showLivreurView = computed(() => {
-  const isNotAdmin = (cookie.getCookie('isAdmin') === '0');
+const showUserView = computed(() => {
+  const isNotAdmin = (cookie.getCookie('Admin') === '0');
   return isNotAdmin;
 });
 

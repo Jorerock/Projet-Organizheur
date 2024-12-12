@@ -2,6 +2,7 @@ import AboutPageComponent from '@/components/AboutPageComponent.vue';
 import LoginPageComponent from '../components/LoginPageComponent.vue';
 import TodosPageComponent from '@/components/TodosPageComponent.vue';
 import GestionUtilisateurPage from '@/components/GestionUtilisateurPage.vue';
+import TodosPageComponent2 from '@/components/TodosPageComponent2.vue';
 
 
 
@@ -14,6 +15,11 @@ const router = createRouter({
       name:'todos',
       path: '/todos',
       component: TodosPageComponent
+    },
+    {
+      name:'todos2',
+      path: '/todos2',
+      component: TodosPageComponent2
     },
     {
       name: 'about',
