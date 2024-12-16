@@ -12,3 +12,6 @@ import HeaderComponent from './components/HeaderComponent.vue';
 </template>
   
 <style scoped></style>
+
+
+<!-- ajouter icone svg ou police d ecriture -->

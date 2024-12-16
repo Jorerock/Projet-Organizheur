@@ -67,7 +67,6 @@ interface Todo {
 }
 import * as cookie from './Cookie';
 
-
 const todosTab = ref<Todo[]>([])
   const Employe_id = cookie.getCookie("Employe_ID")
 
@@ -99,6 +98,8 @@ onMounted(async () => {
 // Methods for todo interactions
 const handleTodoClick = (todo: Todo) => {
   console.log('Todo clicked:', todo);
+  console.log('Todo ID:', todo.Todo_ID);
+
   // Add any specific click handling logic
 }
 
@@ -128,6 +129,7 @@ const markTodoComplete = async (todo: Todo) => {
 const editTodo = (todo: Todo) => {
   console.log('Edit todo:', todo);
   // Implement edit todo logic (e.g., open a modal, navigate to edit page)
+  
 }
 
 // Utility method to format date
