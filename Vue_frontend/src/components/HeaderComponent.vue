@@ -52,9 +52,12 @@ const showUserView = computed(() => {
                 class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
                  List
               </a>
+              <a  v-if="true" href="/MesTodos"
+                class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
+                MesTodos
+              </a>
 
-
-
+              
 
             </div>
           </div>

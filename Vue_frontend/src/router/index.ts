@@ -1,13 +1,12 @@
 import AboutPageComponent from '@/components/AboutPageComponent.vue';
 import LoginPageComponent from '../components/LoginPageComponent.vue';
-import TodosPageComponent from '@/components/TodosPageComponent.vue';
+// import TodosPageComponent from '@/components/TodosPageComponent.vue';
 import GestionUtilisateurPage from '@/components/GestionUtilisateurPage.vue';
 import TodosPageComponent2 from '@/components/TodosPageComponent2.vue';
+import UserListComponent from '@/components/UserListComponent.vue';
+
 import CategoriePage from '@/components/CategoriePage.vue';
 import ListPage from '@/components/ListPage.vue';
-
-
-
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -16,7 +15,7 @@ const router = createRouter({
     {
       name:'todos',
       path: '/todos',
-      component: TodosPageComponent
+      component: TodosPageComponent2
     },
     {
       name:'List',
@@ -29,9 +28,9 @@ const router = createRouter({
       component: CategoriePage
     },
     {
-      name:'todos2',
-      path: '/todos2',
-      component: TodosPageComponent2
+      name:'MesTodos',
+      path: '/MesTodos',
+      component: UserListComponent
     },
     {
       name: 'about',
@@ -42,14 +41,13 @@ const router = createRouter({
       name: 'login',
       path:'/login',
       component: LoginPageComponent
-      // component: LoginPageComponent
+
     },
 
     {
       name: '/gestions',
       path:'/gestions',
       component: GestionUtilisateurPage
-      // component: LoginPageComponent
     }
 
   ]

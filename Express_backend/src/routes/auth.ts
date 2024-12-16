@@ -30,8 +30,9 @@ const token = generateTokenForUser(User)
       secure: process.env.NODE_ENV === 'production', 
       sameSite: 'strict', 
     });
+    console.log(User)
 res.status(201).json({
-    'Employe_ID': user.Employe_ID,
+    'Employe_ID':User.Employe_ID,
     'admin':User.Admin,
     'token': token
 });

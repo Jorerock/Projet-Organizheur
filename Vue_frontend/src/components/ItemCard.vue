@@ -23,18 +23,13 @@
           <slot name="additionalInfo"></slot>
         </div>
   
-        <!-- Price/Action Section -->
-        <div class="item-card__footer">
-          <span v-if="price" class="item-card__price">
-            {{ formatPrice(price) }}
-          </span>
-  
+        <!-- Action Section -->
           <div v-if="$slots.actions" class="item-card__actions">
             <slot name="actions"></slot>
           </div>
         </div>
       </div>
-    </div>
+
   </template>
   
   <script>
@@ -63,12 +58,7 @@
       }
     },
     methods: {
-      formatPrice(price) {
-        // Basic price formatting
-        return typeof price === 'number' 
-          ? `$${price.toFixed(2)}` 
-          : price;
-      },
+
       handleClick() {
         if (this.clickable) {
           this.$emit('card-click');
@@ -77,6 +67,7 @@
     }
   }
   </script>
+  
   
   <style scoped>
   .item-card {

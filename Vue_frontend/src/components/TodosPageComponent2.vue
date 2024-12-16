@@ -34,12 +34,13 @@
             @click.stop="markTodoComplete(todo)" 
             v-if="todo.Todo_end !== 0"
           >
-            Mark Complete
+            Fait
           </button>
           <button 
             @click.stop="editTodo(todo)"
           >
-            Edit
+            Modifier
+          
           </button>
         </div>
       </template>
@@ -66,11 +67,6 @@ interface Todo {
 }
 import * as cookie from './Cookie';
 
-
-// // Props or passed in from parent component
-// const props = defineProps<{
-//   Employe_id: number
-// }>()
 
 const todosTab = ref<Todo[]>([])
   const Employe_id = cookie.getCookie("Employe_ID")

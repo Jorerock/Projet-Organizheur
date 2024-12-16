@@ -4,11 +4,21 @@ import {GetAll,GetSpecific,DeleteSpecific,PutSpecific} from "../Function/RoutesF
 const listRouteur = Router();
 listRouteur.use(express.json());
 
-
-
 listRouteur.get('/', async (req: Request, res: Response) => {
   return GetAll('list')(req, res);
 });
+
+
+listRouteur.get('/:Employe_id', async (req: Request, res: Response) => {
+
+  const Employe_id = parseInt(req.params.Employe_id, 10);
+  if (isNaN(Employe_id) || Employe_id <= 0) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  return GetSpecific('list', Employe_id)(req, res);
+});
+
+
 
 
 listRouteur.delete('/:Categorie_ID', async (req: Request, res: Response) => {
