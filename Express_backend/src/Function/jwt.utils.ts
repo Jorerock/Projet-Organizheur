@@ -48,6 +48,7 @@ export const adminConnect = (req: UserRequest, res: Response, next: NextFunction
 };
 
 export const GETuserID = (req: any) => {
+  console.log(req.cookie)
   const token = req.cookies['token'];
   if(token != null) {
     const jwtToken = jwt.verify(token,tokensign) ;

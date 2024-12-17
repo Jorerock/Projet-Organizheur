@@ -12,11 +12,11 @@ CategorieRouteur.get('/', async (req: Request, res: Response) => {
 
 
 CategorieRouteur.delete('/:Categorie_ID', async (req: Request, res: Response) => {
-  const Categorie_ID = parseInt(req.params.Categorie_ID, 10);
+  const Categorie_ID : number = parseInt(req.params.Categorie_ID, 10);
   if (isNaN(Categorie_ID) || Categorie_ID <= 0) {
     return res.status(400).json({ error: "Invalid ID" });
   }
-  return DeleteSpecific('categorie', Categorie_ID)(req, res);
+  return DeleteSpecific('categorie','Categorie_ID', Categorie_ID)(req, res);
 });
 
 CategorieRouteur.put('/', async (req: Request, res: Response) => {

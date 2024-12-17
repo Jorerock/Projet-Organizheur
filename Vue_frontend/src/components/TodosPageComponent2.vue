@@ -83,11 +83,9 @@ onMounted(async () => {
         'Content-Type': 'application/json',
       }
     });
-   
     if (!TodosRequest.ok) {
       throw new Error(`HTTP error! status: ${TodosRequest.status}`);
     }
-   
     const Todos = await TodosRequest.json();
     todosTab.value = [...Todos];
   } catch (error) {

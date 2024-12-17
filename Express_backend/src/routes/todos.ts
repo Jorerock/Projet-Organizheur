@@ -1,7 +1,8 @@
 import express,{ Request, Response, Router } from "express";
 var cookieParser = require('cookie-parser')
 import { query } from "../db";
-import {GetAll,GetSpecific} from "../Function/RoutesFactory"
+import {GetAll,GetSpecific,DeleteSpecific} from "../Function/RoutesFactory"
+import {Connect,adminConnect} from '../Function/jwt.utils';
 
 const todosRouter = Router();
 todosRouter.use(express.json());
@@ -15,29 +16,33 @@ export interface Todo {
 }
 
 
-todosRouter.get('/:Employe_id', async (req: Request, res: Response) => {
+todosRouter.get('/Bylist/:List_ID',Connect, async (req: Request, res: Response) => {
 
-  const Employe_id = parseInt(req.params.Employe_id, 10);
-  if (isNaN(Employe_id) || Employe_id <= 0) {
+  const List_ID = parseInt(req.params.List_ID, 10);
+  if (isNaN(List_ID) || List_ID <= 0) {
     return res.status(400).json({ error: "Invalid ID" });
   }
-  return GetSpecific('Todo', Employe_id)(req, res);
+  return GetSpecific('Todo','List_ID', List_ID)(req, res);
 });
 
 
 
 
-todosRouter.delete('/:List_ID', async (req: Request, res: Response) => {
-  const List_ID = parseInt(req.params.List_ID, 10);
-  console.log('.get/todos/'+List_ID)
-  try {
-    const Todos = await query(' DELETE FROM Todo WHERE List_ID= ? ; ',[List_ID]);
-    console.log("les todo :",Todos)
-    res.json(Todos);
-  } catch (error) {
-  console.error('Erreur :', error);
-  res.status(500).json({ error: 'Erreur serveur' });
-}});
+todosRouter.delete('/:Todo_ID',Connect, async (req: Request, res: Response) => {
+  const Todo_ID : number = parseInt(req.params.Todo_ID, 10);
+  if (isNaN(Todo_ID) || Todo_ID <= 0) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  return DeleteSpecific('Todo','List_ID', Todo_ID)(req, res);
+//   try {
+//     const Todos = await query(' DELETE FROM Todo WHERE Todo_ID= ? ; ',[Todo_ID]);
+//     console.log("les todo :",Todos)
+//     res.json(Todos);
+//   } catch (error) {
+//   console.error('Erreur :', error);
+//   res.status(500).json({ error: 'Erreur serveur' });
+// }
+});
 
 
 
