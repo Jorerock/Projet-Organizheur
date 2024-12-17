@@ -48,8 +48,10 @@ import { ref, onMounted } from 'vue'
 import ItemCard from '../components/ItemCard.vue'
 import Todos from '../components/TodosPageComponent2.vue'
 import * as cookie from './Cookie'
+import { Todo } from '../models/todo';
+import { list } from 'postcss';
 
-// Même interface et logique que votre code original
+
 interface List {
   List_ID: number;
   List_Name: string;
@@ -66,7 +68,6 @@ interface List {
 const listsTab = ref<List[]>([])
 const Employe_id = cookie.getCookie("Employe_ID")
 
-// Fetch lists - même logique que votre code original
 onMounted(async () => {
   try {
     const listsRequest = await fetch(`http://localhost:3000/list/${Employe_id}`, {
@@ -91,10 +92,37 @@ onMounted(async () => {
   }
 });
 
+const todosTab = ref<Todo[]>([])
+
+
+const GetTodo = async (list: List) => {
+  try {
+    const response = await fetch(`http://localhost:3000/todos/${list.List_ID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      todosTab.value = [...data];
+    } else {
+      throw new Error(data.message || 'Authentication failed')
+    }
+  } catch (error) {
+    console.error('Login error:', error)
+}
+}
+
+
 // Méthodes - même logique que votre code original
 const handlelistClick = (list: List) => {
   console.log('list clicked:', list);
   console.log('Id of this list:', list.List_ID);
+  GetTodo(list)
+  console.log(todosTab.value)
 }
 
 const formatDate = (dateString?: string) => {
