@@ -135,7 +135,7 @@ const handleLogin = async (credentials: { email: string, password: string }) => 
       window.location.reload(); // Reloads the current page
 
     } else {
-      throw new Error(data.message || 'Authentication failed')
+      throw new Error(data.message || 'Mail/Mot de passe éronnée')
     }
   } catch (error) {
     console.error('Login error:', error)

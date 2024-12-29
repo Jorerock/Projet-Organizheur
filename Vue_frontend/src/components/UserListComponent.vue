@@ -16,8 +16,8 @@
               <span 
                 class="px-2 py-1 rounded text-xs font-bold" 
                 :class="{
-                  'bg-green-500 text-white': list.List_End === true,
-                  'bg-blue-500 text-white': list.List_End === false
+                  'bg-red-500 text-white': Boolean(list.List_End) == true,
+                  'bg-green-500 text-white': Boolean(list.List_End) == false
                 }"
               >
                 {{ list.List_End ? 'Terminé' : 'En cours' }}
@@ -54,11 +54,11 @@
           <span 
             class="todo-status" 
             :class="{
-              'status-completed': todo.Todo_end === true,
-              'status-in-progress': todo.Todo_end === false
+              'status-completed': Boolean(todo.Todo_End) === true,
+              'status-in-progress': Boolean(todo.Todo_End) === false
             }"
           >
-            {{ todo.Todo_end }}
+
           </span>
           <span v-if="todo.Todo_Echeance_date" class="todo-due-date">
             Due: {{ formatDate(todo.Todo_Echeance_date) }}
@@ -68,12 +68,20 @@
       
       <!-- Actions slot for todo interactions -->
       <template #actions>
+
         <div class="todo-actions">
+          <!-- <input type="checkbox" :checked="todo.Todo_End" @click="(event: any) => markTodoComplete(event.target?.checked)"/> -->
           <button 
             @click.stop="markTodoComplete(todo)" 
-            v-if="todo.Todo_end !== 0"
+            v-if="Boolean(todo.Todo_End) == false"
           >
             Fait
+          </button>          
+          <button 
+            @click.stop="markTodoComplete(todo)" 
+            v-if="Boolean(todo.Todo_End) == true"
+          >
+            defait
           </button>
           <button 
             @click.stop="editTodo(todo)"
@@ -143,7 +151,6 @@ onMounted(async () => {
 
 const todosTab = ref<Todo[]>([])
 
-
 const GetTodo = async (list: List) => {
   try {
     const response = await fetch(`http://localhost:3000/todos/Bylist/${list.List_ID}`, {
@@ -160,6 +167,10 @@ const GetTodo = async (list: List) => {
     if (response.ok) {
       todosTab.value = [...data];
         console.log(todosTab)
+        console.log('id',todosTab.value[1].Todo_ID)
+        console.log('valeur',Boolean(todosTab.value[1].Todo_End))
+        console.log('id',todosTab.value[2].Todo_ID)
+        console.log('valeur',todosTab.value[2].Todo_End)
 
     } else {
       throw new Error(data.message || 'Cannot find any todo')
@@ -178,6 +189,9 @@ const handlelistClick = (list: List) => {
 }
 
 const markTodoComplete = async (todo: Todo) => {
+  let stqtut = 1
+ if(Boolean(todo.Todo_End) == true)
+ stqtut = 0
   try {
     const response = await fetch(`http://localhost:3000/todos/${todo.Todo_ID}`, {
       method: 'PATCH',
@@ -185,14 +199,14 @@ const markTodoComplete = async (todo: Todo) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ status: 1 })
+      body: JSON.stringify({ status: stqtut })
     });
 
     if (response.ok) {
       // Update local state
       const index = todosTab.value.findIndex(t => t.Todo_ID === todo.Todo_ID);
       if (index !== -1) {
-        todosTab.value[index].Todo_end = true;
+        todosTab.value[index].Todo_End = true;
       }
     }
   } catch (error) {
@@ -249,7 +263,7 @@ const formatDate = (dateString?: string) => {
 }
 
 .status-in-progress {
-  background-color: #2196f3;
+  background-color: #f32121;
   color: white;
 }
 
@@ -267,5 +281,14 @@ const formatDate = (dateString?: string) => {
   text-align: center;
   color: #888;
   padding: 20px;
+}
+
+.button {
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #04AA6D; /* Green */
+  color: white;
 }
 </style>

@@ -62,3 +62,20 @@ export const PutSpecific  = (table: string, header : string[][]) =>
         res.status(500).json({ error: error });
       }};
     
+
+
+export const PatchSpecific  = (table: string,WhereId:string, header : string[][]) =>
+async (req: Request, res: Response) => {
+    let insertQuery = `UPDATE ${table} SET`
+    header.forEach(element => {
+    insertQuery = insertQuery + ` ? = ?`,[element[0],element[1]]
+    insertQuery = insertQuery + `WHERE ${WhereId}  = ?`,element[3];
+    console.log(insertQuery)});
+    try{
+    const Todos = await query(insertQuery);
+    res.status(201).json({'Crée': 'Elément crée'});
+    } catch (error) {
+    console.error('Erreur :', error);
+    res.status(500).json({ error: error });
+    }};
+        

@@ -6,7 +6,7 @@
 export interface Todo {
   List_ID: number;
   Todo_Name: string;
-  Todo_end: boolean;
+  Todo_End: boolean;
   Todo_Echeance_date?: string;
   Todo_ID: number;
   Todo_Completion_Date?: Date;

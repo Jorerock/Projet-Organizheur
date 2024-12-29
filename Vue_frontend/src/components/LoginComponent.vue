@@ -156,9 +156,9 @@ const showPassword = ref(false)
 
 const validateEmail = () => {
   if (!form.email) {
-    errors.email = 'Email is required'
+    errors.email = 'Email obligtoire'
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = 'Please enter a valid email address'
+    errors.email = 'cette adresse email n\' est pas valide'
   } else {
     delete errors.email
   }
@@ -166,9 +166,9 @@ const validateEmail = () => {
 
 const validatePassword = () => {
   if (!form.password) {
-    errors.password = 'Password is required'
+    errors.password = 'Mot de passe obligtoire'
   } else if (form.password.length < 6) {
-    errors.password = 'Password must be at least 6 characters'
+    errors.password = 'le mot de passe doit contenir au moins 6 caractere'
   } else {
     delete errors.password
   }
