@@ -1,7 +1,7 @@
 import express,{ Request, Response, Router } from "express";
 var cookieParser = require('cookie-parser')
 import { query } from "../db";
-import {GetAll,GetSpecific,DeleteSpecific} from "../Function/RoutesFactory"
+import {GetAll,GetSpecific,DeleteSpecific,PatchSpecific} from "../Function/RoutesFactory"
 import {Connect,adminConnect} from '../Function/jwt.utils';
 
 const todosRouter = Router();
@@ -26,6 +26,14 @@ todosRouter.get('/Bylist/:List_ID',Connect, async (req: Request, res: Response) 
 });
 
 
+todosRouter.patch('/:List_ID',Connect, async (req: Request, res: Response) => {
+
+  const List_ID = parseInt(req.params.List_ID, 10);
+  if (isNaN(List_ID) || List_ID <= 0) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  return PatchSpecific('Todo','List_ID', List_ID)(req, res);
+});
 
 
 todosRouter.delete('/:Todo_ID',Connect, async (req: Request, res: Response) => {
