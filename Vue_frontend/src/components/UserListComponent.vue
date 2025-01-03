@@ -23,7 +23,7 @@
                 {{ list.List_End ? 'Terminé' : 'En cours' }}
               </span>
               <span v-if="list.List_End_Date" class="text-xs text-gray-600">
-                Date: {{ formatDate(list.List_End_Date) }}
+                Archivee: {{ formatDate(list.List_End_Date) }}
               </span>
             </div>
           </template>
@@ -40,14 +40,14 @@
     <!-- Colonne de droite - Composant Todos -->
     <div class="w-2/3 p-4 bg-white overflow-y-auto">
       <div class="todos-container">
-    <ItemCard 
-      v-for="todo in todosTab" 
-      :key="todo.Todo_ID"
-      :title="todo.Todo_Name"
-      :description="todo.description"
-      :clickable="true"
+        <ItemCard 
+          v-for="todo in todosTab" 
+          :key="todo.Todo_ID"
+          :title="todo.Todo_Name"
+          :description="todo.description"
+          :clickable="true"
 
-    >
+        >
       <!-- Additional info slot for todo details -->
       <template #additionalInfo>
         <div class="todo-additional-info">
@@ -65,7 +65,7 @@
           </span>
         </div>
       </template>
-      
+        
       <!-- Actions slot for todo interactions -->
       <template #actions>
 
@@ -87,17 +87,24 @@
             @click.stop="editTodo(todo)"
           >
             Modifier
-          
+            
           </button>
         </div>
       </template>
     </ItemCard>
 
-    <!-- No todos message -->
-    <div v-if="todosTab.length === 0" class="no-todos">
-      Pas de Todos trouvé
-    </div>
-  </div>
+      <!-- No todos message -->
+      <div v-if="todosTab.length === 0" class="no-todos">
+        Pas de Todos trouvé
+      </div>
+      </div>
+      <div v-if="AlltodoDone === 0" class="no-todos">
+        <button 
+            @click.stop="markListComplete()"  class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            Archive
+          </button>
+      </div>
     </div>
   </div>
 </template>
@@ -105,7 +112,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import ItemCard from '../components/ItemCard.vue'
-import Todos from '../components/TodosPageComponent2.vue'
 import * as cookie from './Cookie'
 import { Todo } from '../models/todo';
 import { list } from 'postcss';
@@ -126,6 +132,8 @@ interface List {
 
 const listsTab = ref<List[]>([])
 const Employe_id = cookie.getCookie("Employe_ID")
+let AlltodoDone : number = 0
+let CurrentList : number
 
 onMounted(async () => {
   try {
@@ -152,6 +160,8 @@ onMounted(async () => {
 const todosTab = ref<Todo[]>([])
 
 const GetTodo = async (list: List) => {
+  CurrentList = list.List_ID
+
   try {
     const response = await fetch(`http://localhost:3000/todos/Bylist/${list.List_ID}`, {
       method: 'GET',
@@ -171,7 +181,7 @@ const GetTodo = async (list: List) => {
         console.log('valeur',Boolean(todosTab.value[1].Todo_End))
         console.log('id',todosTab.value[2].Todo_ID)
         console.log('valeur',todosTab.value[2].Todo_End)
-
+        console.log('CurrentList',CurrentList)
     } else {
       throw new Error(data.message || 'Cannot find any todo')
     }
@@ -206,8 +216,39 @@ const markTodoComplete = async (todo: Todo) => {
       // Update local state
       const index = todosTab.value.findIndex(t => t.Todo_ID === todo.Todo_ID);
       if (index !== -1) {
-        todosTab.value[index].Todo_End = true;
+        todosTab.value[index].Todo_End = Boolean(stqtut);
       }
+    }
+  } catch (error) {
+    console.error('Error marking todo complete:', error);
+  }
+}
+
+
+const markListComplete = async () => {
+  let end : number = 1
+  const index = listsTab.value.findIndex(t => t.List_ID === CurrentList);
+    if (index !== -1) {
+      if(Boolean(listsTab.value[index].List_End) == true){
+         end = 0
+      }
+    }
+
+  try {
+    const response = await fetch(`http://localhost:3000/list/${CurrentList}`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ List_End: end })
+    });
+
+    if (response.ok) {
+      // Update local state
+
+        listsTab.value[index].List_End = Boolean(end);
+      
     }
   } catch (error) {
     console.error('Error marking todo complete:', error);

@@ -36,10 +36,7 @@ const showUserView = computed(() => {
                 class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
                 Login
               </a>
-              <a  href="/Todos"
-                class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
-                Todos
-              </a>
+
               <a  v-if="true" href="/gestions"
                 class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200">
                 Utilisateur

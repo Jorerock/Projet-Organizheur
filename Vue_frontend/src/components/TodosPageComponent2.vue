@@ -1,56 +1,5 @@
 <template>
-  <div class="todos-container">
-    <ItemCard 
-      v-for="todo in todosTab" 
-      :key="todo.Todo_ID"
-      :title="todo.Todo_Name"
-      :description="todo.description"
-      :clickable="true"
-      @card-click="handleTodoClick(todo)"
-    >
-      <!-- Additional info slot for todo details -->
-      <template #additionalInfo>
-        <div class="todo-additional-info">
-          <span 
-            class="todo-status" 
-            :class="{
-              'status-completed': todo.Todo_end === 2,
-              'status-pending': todo.Todo_end === 1,
-              'status-in-progress': todo.Todo_end === 0
-            }"
-          >
-            {{ todo.Todo_end }}
-          </span>
-          <span v-if="todo.Todo_Echeance_date" class="todo-due-date">
-            Due: {{ formatDate(todo.Todo_Echeance_date) }}
-          </span>
-        </div>
-      </template>
-
-      <!-- Actions slot for todo interactions -->
-      <template #actions>
-        <div class="todo-actions">
-          <button 
-            @click.stop="markTodoComplete(todo)" 
-            v-if="todo.Todo_end !== 0"
-          >
-            Fait
-          </button>
-          <button 
-            @click.stop="editTodo(todo)"
-          >
-            Modifier
-          
-          </button>
-        </div>
-      </template>
-    </ItemCard>
-
-    <!-- No todos message -->
-    <div v-if="todosTab.length === 0" class="no-todos">
-      No todos found
-    </div>
-  </div>
+ ttest
 </template>
 
 <script setup lang="ts">
@@ -87,6 +36,7 @@ onMounted(async () => {
       throw new Error(`HTTP error! status: ${TodosRequest.status}`);
     }
     const Todos = await TodosRequest.json();
+    console.log(Todos.value)
     todosTab.value = [...Todos];
   } catch (error) {
     console.error('Error fetching todos:', error);

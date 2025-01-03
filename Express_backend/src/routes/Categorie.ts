@@ -1,5 +1,5 @@
 import express,{ Request, Response, Router } from "express";
-import {GetAll,GetSpecific,DeleteSpecific,PutSpecific} from "../Function/RoutesFactory"
+import {GetAll,GetSpecific,DeleteSpecific,PutSpecific,UpdateSpecific} from "../Function/RoutesFactory"
 
 const CategorieRouteur = Router();
 CategorieRouteur.use(express.json());
@@ -19,22 +19,26 @@ CategorieRouteur.delete('/:Categorie_ID', async (req: Request, res: Response) =>
   return DeleteSpecific('categorie','Categorie_ID', Categorie_ID)(req, res);
 });
 
-CategorieRouteur.put('/', async (req: Request, res: Response) => {
-  const head :string[][]=[
-    [
+// CategorieRouteur.put('/', async (req: Request, res: Response) => {
+//   const head :string[][]=[
+//     [
 
-      'Categorie_Name',
-      'Employe_ID'
-    ],
-    [
+//       'Categorie_Name',
+//       'Employe_ID'
+//     ],
+//     [
 
-      req.body.Categorie_Name,
-      req.body.Employe_ID
-    ],
-  ]
-  return PutSpecific('categorie', head)(req, res);
-});
+//       req.body.Categorie_Name,
+//       req.body.Employe_ID
+//     ],
+//   ]
+//   return PutSpecific('categorie', head)(req, res);
+// });
 
+
+
+ const updateUser = UpdateSpecific('categorie', 'Categorie_ID', ['Categorie_ID', 'Categorie_Name','Employe_ID']);
+ CategorieRouteur.put('/:id', UpdateSpecific('categorie', 'Categorie_ID', ['Categorie_ID', 'Categorie_Name','Employe_ID']));
 
 export default CategorieRouteur;
 

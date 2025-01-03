@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { query } from "../db";
 import {Connect,adminConnect} from '../Function/jwt.utils';
+import {GetAll,GetSpecific,DeleteSpecific,PatchSpecific,UpdateSpecific} from "../Function/RoutesFactory"
 
 const usersRouter = Router();
 // Route pour récupérer tous les utilisateurs
@@ -47,6 +48,8 @@ usersRouter.delete('/', async (req: Request, res: Response) => {
   }});
 
 
+ const updateUser = UpdateSpecific('users', 'id', ['name', 'email']);
+ usersRouter.patch('/users/:id', updateUser);
 
 // cree un user
 usersRouter.post('/',async (req: Request, res: Response) => { 

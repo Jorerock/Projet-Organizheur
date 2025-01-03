@@ -13,11 +13,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      name:'todos',
-      path: '/todos',
-      component: TodosPageComponent2
-    },
-    {
       name:'List',
       path: '/List',
       component: ListPage

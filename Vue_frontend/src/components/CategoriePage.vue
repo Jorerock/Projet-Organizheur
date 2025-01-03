@@ -75,7 +75,7 @@ export default {
 <ReusableTable
     :headers="headers"
     :items="Utilisateur"
-    rowKey="Utilisateur_ID"
+    rowKey="Categorie_ID"
     :apiUrl="apiUrl"
     @itemCreated="handleItemCreated"
     @itemUpdated="handleItemUpdated"

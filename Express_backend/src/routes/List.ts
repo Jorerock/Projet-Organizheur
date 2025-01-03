@@ -1,5 +1,5 @@
 import express,{ Request, Response, Router } from "express";
-import {GetAll,GetSpecific,DeleteSpecific,PutSpecific} from "../Function/RoutesFactory"
+import {GetAll,GetSpecific,DeleteSpecific,PutSpecific,PatchSpecific} from "../Function/RoutesFactory"
 import {Connect,adminConnect} from '../Function/jwt.utils';
 var cookieParser = require('cookie-parser')
 
@@ -49,6 +49,18 @@ listRouteur.put('/',Connect, async (req: Request, res: Response) => {
   return PutSpecific('categorie', head)(req, res);
 });
 
+
+listRouteur.patch('/:List_ID',Connect, async (req: Request, res: Response) => {
+
+  const List_ID = parseInt(req.params.List_ID, 10);
+  if (isNaN(List_ID) || List_ID <= 0) {
+    return res.status(400).json({ error: "Invalid ID" });
+  }
+  let elem : string[][] = ['List_End',req.body.List_End];
+  console.log(List_ID,elem)
+
+  return PatchSpecific('List','List_ID',List_ID,'List_End',elem)(req, res);
+});
 
 export default listRouteur;
 

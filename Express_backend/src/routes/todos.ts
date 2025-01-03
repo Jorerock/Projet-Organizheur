@@ -26,13 +26,18 @@ todosRouter.get('/Bylist/:List_ID',Connect, async (req: Request, res: Response) 
 });
 
 
-todosRouter.patch('/:List_ID',Connect, async (req: Request, res: Response) => {
 
-  const List_ID = parseInt(req.params.List_ID, 10);
-  if (isNaN(List_ID) || List_ID <= 0) {
+	
+todosRouter.patch('/:Todo_ID',Connect, async (req: Request, res: Response) => {
+
+  const Todo_ID = parseInt(req.params.Todo_ID, 10);
+  if (isNaN(Todo_ID) || Todo_ID <= 0) {
     return res.status(400).json({ error: "Invalid ID" });
   }
-  return PatchSpecific('Todo','List_ID', List_ID)(req, res);
+  let elem : string[][] = ['status',req.body.status];
+  console.log(Todo_ID,elem)
+
+  return PatchSpecific('Todo','Todo_ID',Todo_ID,'Todo_End', elem)(req, res);
 });
 
 

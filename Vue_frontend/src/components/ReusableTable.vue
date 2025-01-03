@@ -242,6 +242,7 @@ export default defineComponent({
 
     const deleteItem = async (item: TableItem): Promise<void> => {
       try {
+        console.log(item.Categorie_ID)
         const response = await fetch(`${props.apiUrl}/${item[props.rowKey]}`, {
           method: 'DELETE',
           credentials: 'include'
